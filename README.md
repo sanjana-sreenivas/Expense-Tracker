@@ -2,7 +2,7 @@
 
 A responsive and user-friendly Expense Tracker built using **HTML, CSS, and JavaScript**. This application helps users manage their daily income and expenses, track their balance, and store transaction data using Local Storage.
 
-🔗 **Live Website:** https://sethumadhavan505.github.io/Smart-Expense-Tracker/
+🔗 **Live Website:** 
 
 
 ## 🚀 Features
@@ -68,17 +68,4 @@ git clone https://github.com/sethumadhavan505/Smart-Expense-Tracker.git
 * Dark Mode
 * Export Data as PDF
 
-## 👨‍💻 Author
 
-**SETHU MADHAVAN P**
-
-GitHub: https://github.com/sethumadhavan505
-
-## 📄 License
-
-This project was developed by **Sethu Madhavan P** for educational and learning purposes and is licensed under the **MIT License**. See the **LICENSE** file for more information.
-
-
----
-
-⭐ If you found this project useful, consider giving it a star.
