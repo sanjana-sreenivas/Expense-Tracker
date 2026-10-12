@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Expense Tracker</title>
+    <link rel="icon" type="image/x-icon" href="smart.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="logo.png" alt="Smart Expense Tracker Logo" class="main-logo">
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" id="navDashboard" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+                <a href="#" id="navTransactions" class="nav-item"><i class="fa-solid fa-list"></i> Transactions</a>
+                <a href="#" id="navCategories" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Categories</a>
+                <a href="#" id="navAnalytics" class="nav-item"><i class="fa-solid fa-chart-simple"></i> Analytics</a>
+                <a href="#" id="navSettings" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+            </nav>
+
+            <div class="promo-card">
+                <p>Track your expenses today for a better tomorrow.</p>
+                <div class="promo-illustration">
+                    <i class="fa-solid fa-coins"></i>
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+            </div>
+        </aside>
+        
+        <div id="sidebarOverlay" class="sidebar-overlay"></div>
+        
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-titles-wrapper" style="display: flex; align-items: center; gap: 16px;">
+                    <button id="menuToggle" class="menu-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="header-titles">
+                        <h2>Dashboard</h2>
+                        <p>Overview of your finances</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button id="openModalBtn" class="btn-add"><i class="fa-solid fa-plus"></i> Add Transaction</button>
+                    
+                    <div class="dark-mode-toggle">
+                        <i class="fa-solid fa-moon"></i> Dark Mode
+                        <label class="switch">
+                            <input type="checkbox" id="darkModeCheckbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    
+                    <button id="clearDataBtn" class="btn-clear">
+                        <i class="fa-solid fa-trash-can"></i> Clear
+                    </button>
+                </div>
+            </header>
+
+            <div id="dashboardView" class="dashboard-grid">
+                
+                <div class="summary-cards">
+                    <div class="card summary-card">
+                        <div class="icon-box bg-green-light"><i class="fa-solid fa-arrow-trend-up text-green"></i></div>
+                        <div class="card-info">
+                            <p class="label">Total Income</p>
+                            <h3>₹0</h3>
+                            <p class="sub-label">This Month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="icon-box bg-red-light"><i class="fa-solid fa-arrow-trend-down text-red"></i></div>
+                        <div class="card-info">
+                            <p class="label">Total Expense</p>
+                            <h3>₹0</h3>
+                            <p class="sub-label">This Month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="icon-box bg-blue-light"><i class="fa-solid fa-wallet text-blue"></i></div>
+                        <div class="card-info">
+                            <p class="label">Balance</p>
+                            <h3>₹0</h3>
+                            <p class="sub-label">This Month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="icon-box bg-yellow-light"><i class="fa-solid fa-chart-bar text-yellow"></i></div>
+                        <div class="card-info">
+                            <p class="label">Transactions</p>
+                            <h3>0</h3>
+                            <p class="sub-label">This Month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-and-lists">
+                    <div class="card chart-card">
+                        <h3>Expense Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="expenseChart"></canvas>
+                        </div>
+                        <div class="total-expenses-footer">
+                            <span>Total Expenses</span>
+                            <strong>₹0</strong>
+                        </div>
+                    </div>
+
+                    <div class="card transactions-card">
+                        <div class="card-header">
+                            <h3>Recent Transactions</h3>
+                            <a href="#" id="viewAllBtn" class="view-all">View All</a>
+                        </div>
+                        <div class="transaction-list">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card budget-tip">
+                    <div class="tip-left">
+                        <img src="Budget.png" alt="Budget Target" class="budget-icon">
+                        <div>
+                            <h4>Budget Tip</h4>
+                            <p>Try to spend less on unnecessary things and save more!</p>
+                        </div>
+                    </div>
+                    <div class="tip-right">
+                        <div class="budget-labels">
+                            <span>Monthly Budget</span>
+                            <span id="budgetAmountText">₹0 / ₹30,000</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="budgetProgressFill" class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <span id="budgetProgressText" class="progress-percent">0%</span>
+                    </div>
+                </div>
+
+            </div> 
+
+            <div id="transactionsView" class="dashboard-grid" style="display: none;">
+                <div class="card transactions-card" style="width: 100%; min-height: 500px;">
+                    <div class="card-header">
+                        <h3>All Transactions History</h3>
+                    </div>
+                    <div class="transaction-list" id="allTransactionsList">
+                    </div>
+                </div>
+            </div>
+
+            <div id="categoriesView" class="dashboard-grid" style="display: none;">
+                <div class="card transactions-card" style="width: 100%; min-height: 500px;">
+                    <div class="card-header">
+                        <h3>Spending by Category</h3>
+                    </div>
+                    <div id="categoryBreakdownList" style="padding: 24px;">
+                    </div>
+                </div>
+            </div>
+
+            <div id="analyticsView" class="dashboard-grid" style="display: none;">
+                
+                <div class="summary-cards" style="grid-column: 1 / -1;">
+                    <div class="card summary-card">
+                        <div class="icon-box bg-green-light"><i class="fa-solid fa-piggy-bank text-green"></i></div>
+                        <div class="card-info">
+                            <p class="label">Net Savings</p>
+                            <h3 id="analyticsNetSavings">₹0</h3>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="icon-box bg-red-light"><i class="fa-solid fa-fire text-red"></i></div>
+                        <div class="card-info">
+                            <p class="label">Highest Spend Area</p>
+                            <h3 id="analyticsTopCategory">-</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card chart-card" style="grid-column: 1 / -1;">
+                    <div class="card-header">
+                        <h3>Cash Flow (Income vs. Expense)</h3>
+                    </div>
+                    <div class="chart-container" style="height: 300px; padding: 20px;">
+                        <canvas id="cashFlowChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="settingsView" class="dashboard-grid" style="display: none;">
+                <div class="card" style="max-width: 600px; width: 100%;">
+                    <div class="card-header">
+                        <h3>Application Preferences</h3>
+                    </div>
+                    <form style="padding: 24px;" id="settingsForm">
+                        <div class="form-group">
+                            <label>Monthly Budget Target</label>
+                            <input type="number" id="settingBudget" value="30000">
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Currency</label>
+                            <select id="settingCurrency">
+                                <option value="₹">₹ Indian Rupee (INR)</option>
+                                <option value="$">$ US Dollar (USD)</option>
+                                <option value="€">€ Euro (EUR)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Theme Preference</label>
+                            <select id="settingTheme">
+                                <option value="light">Always Light</option>
+                                <option value="dark">Always Dark</option>
+                            </select>
+                        </div>
+                        <button type="button" id="saveSettingsBtn" class="btn-submit-form">Save Preferences</button>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="transactionModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Transaction</h2>
+                <button id="closeModalBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="transactionForm">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="titleInput" placeholder="e.g., Coffee" required>
+                </div>
+                <div class="form-group">
+                    <label id="modalAmountLabel">Amount (₹)</label>
+                    <input type="number" id="amountInput" placeholder="0" required min="1">
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="typeInput" required>
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="categoryInput" required>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Income">Income (Salary, Bonus)</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit-form">Save Transaction</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
